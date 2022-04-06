@@ -1,2 +1,3 @@
 # Toastool
 web
+seoji
