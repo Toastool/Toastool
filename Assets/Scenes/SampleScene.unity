@@ -279,6 +279,7 @@ GameObject:
   - component: {fileID: 1014268179}
   - component: {fileID: 1014268178}
   - component: {fileID: 1014268181}
+  - component: {fileID: 1014268180}
   m_Layer: 0
   m_Name: Square
   m_TagString: Untagged
@@ -325,7 +326,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -351,6 +352,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1014268180
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1014268177}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2c2c3d088b132246b0ce5d53bc180c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  WebViewPrefab: {fileID: 6472568360171045450, guid: a70c93f61191d114d919a00a2b45f6ad, type: 3}
 --- !u!61 &1014268181
 BoxCollider2D:
   m_ObjectHideFlags: 0
