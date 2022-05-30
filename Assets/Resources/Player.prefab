@@ -333,6 +333,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20ab3dd71e263d14aa98a2f3ce3e195c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentMapName: PrivateScene
   moveSpeed: 5
 --- !u!50 &5362807849226406781
 Rigidbody2D:

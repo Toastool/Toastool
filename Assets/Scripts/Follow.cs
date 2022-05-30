@@ -14,6 +14,7 @@ public class Follow : MonoBehaviour
 
     void Start()
     {
+        DontDestroyOnLoad(this.gameObject);
         height = Camera.main.orthographicSize;
         width = height * Screen.width / Screen.height;
     }

@@ -4,11 +4,14 @@ using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
 {
+    public string currentMapName; // transferMap 스크립트에 있는 transferMapName 변수의 값을 저장.
+
     public float moveSpeed;
     Animator anim;
     // Start is called before the first frame update
     void Start()
     {
+        DontDestroyOnLoad(this.gameObject);
         anim = GetComponent<Animator>();
     }
 
