@@ -18,10 +18,10 @@ namespace Photon.Voice.Unity.Editor {
             if (showMore) {
                 this.DrawSerializedProperty("HandleConfigChange");
             }
-            #if PHOTON_AUDIO_CHANGE_IN_NOTIFIER
+#if PHOTON_AUDIO_CHANGE_IN_NOTIFIER
             SerializedProperty usePhoton = this.DrawSerializedProperty("UseNativePluginChangeNotifier");
             showMore |= usePhoton.boolValue;
-            #endif
+#endif
             if (showMore) {
                 if (this.DrawSerializedProperty("HandleDeviceChange").boolValue) {
                     this.DrawSerializedProperty("Android_AlwaysHandleDeviceChange");

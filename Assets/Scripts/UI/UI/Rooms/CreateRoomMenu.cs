@@ -12,6 +12,8 @@ public class CreateRoomMenu : MonoBehaviourPunCallbacks
     private Text _roomname;
     RoomListingsMenu RoomListingsMenu;
     private RoomCanvases _roomCanvases;
+    public static GameObject PI;
+    public string currentMapName; // transferMap 스크립트에 있는 transferMapName 변수의 값을 저장.
 
     public void FirstInitialize(RoomCanvases canvases)
     {
@@ -30,7 +32,8 @@ public class CreateRoomMenu : MonoBehaviourPunCallbacks
 
     public void Spawn()
     {
-        PhotonNetwork.Instantiate("Player", Vector3.zero, Quaternion.identity);
+       PI =  PhotonNetwork.Instantiate("Player", Vector3.zero, Quaternion.identity);
+        Follow.mainCam.target = PI.transform;
         Debug.Log("I'm in the room.");
     }
 
