@@ -12,6 +12,14 @@ public class Follow : MonoBehaviour
     float height;
     float width;
 
+    private GameObject player;
+    public static Follow mainCam;
+
+    private void Awake()
+    {
+        mainCam = this;
+    }
+
     void Start()
     {
         DontDestroyOnLoad(this.gameObject);
@@ -27,15 +35,23 @@ public class Follow : MonoBehaviour
 
     void LateUpdate()
     {
-        //transform.position = new Vector3(target.position.x, target.position.y, -10f);
-        transform.position = Vector3.Lerp(transform.position, target.position, Time.deltaTime * speed);
+        if(player == null)
+        {
+            player = GameObject.Find("Player(Clone)");
+        }
+        else
+        {
+            //transform.position = new Vector3(target.position.x, target.position.y, -10f);
+            transform.position = Vector3.Lerp(transform.position, player.transform.position, Time.deltaTime * speed);
 
-        float lx = size.x * 0.5f - width;
-        float clampX = Mathf.Clamp(transform.position.x , -lx + center.x , lx + center.x);
+            float lx = size.x * 0.5f - width;
+            float clampX = Mathf.Clamp(transform.position.x, -lx + center.x, lx + center.x);
 
-        float ly = size.y * 0.5f - height;
-        float clampY = Mathf.Clamp(transform.position.y , -ly + center.y , ly + center.y);
+            float ly = size.y * 0.5f - height;
+            float clampY = Mathf.Clamp(transform.position.y, -ly + center.y, ly + center.y);
 
-        transform.position = new Vector3(clampX, clampY , -10f);
+            transform.position = new Vector3(clampX, clampY, -10f);
+        }
+
     }
 }
