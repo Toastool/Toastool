@@ -7,6 +7,8 @@ using UnityEngine.UI;
 
 public class PlayerScript : MonoBehaviourPunCallbacks, IPunObservable
 {
+    public string currentMapName; // transferMap 스크립트에 있는 transferMapName 변수의 값을 저장.
+
     public float moveSpeed;
     Animator anim;
 
@@ -17,6 +19,12 @@ public class PlayerScript : MonoBehaviourPunCallbacks, IPunObservable
     public Text NickNameText;
 
     Vector3 curPos;
+
+    void Start()
+    {
+        DontDestroyOnLoad(this.gameObject);
+        anim = GetComponent<Animator>();
+    }
 
     void Awake()
     {
@@ -52,7 +60,7 @@ public class PlayerScript : MonoBehaviourPunCallbacks, IPunObservable
 
         //ismine 이 아닌 것들은 부드럽게 위치 동기화
        
-        else transform.position = Vector3.Lerp(transform.position, curPos, Time.deltaTime * 10); //부드럽게 이동
+        else transform.position = Vector3.Lerp(transform.position, curPos, Time.deltaTime * 100); //부드럽게 이동
     }
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {

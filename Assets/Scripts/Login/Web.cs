@@ -9,8 +9,8 @@ public class Web : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        StartCoroutine(Login("test", "1234"));
-        StartCoroutine(Register("test", "1234"));
+        //StartCoroutine(Login("test", "1234"));
+        //StartCoroutine(Register("test", "1234"));
     }
 
     public IEnumerator Login(string username, string password)
@@ -30,7 +30,7 @@ public class Web : MonoBehaviour
             else
             {
                 Debug.Log(www.downloadHandler.text);
-                SceneManager.LoadScene("LobbyScene");
+                SceneManager.LoadScene("SampleScene");
             }
         }
     }
