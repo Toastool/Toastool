@@ -15,8 +15,14 @@ router.post('/',function(req,res) {
         data.fileList = fileList;
     });
     
+    var file = req.body.load;
+    var filepath = "";
+    if(file == 'main.c')
+        filepath = 'main.c';
+    else
+        filepath = '/workspace/git_toastool/newWebsocket/userFile/exampleProject/' + file;
     
-    fs.readFile('main.c', 'utf8' , (err, contents) => {
+    fs.readFile(filepath, 'utf8' , (err, contents) => {
       if (err) {
         console.error(err);
         return;

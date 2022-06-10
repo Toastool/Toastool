@@ -56,7 +56,7 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-
+/*
 //ip주소 얻어오기
 // inside middleware handler
 // const ipMiddleware = function(req, res, next) {
@@ -117,7 +117,7 @@ app.use(function(err, req, res, next) {
 //     res.render("index", {title: 'ToasTooL'});
 // });
 //app.listen(3000);
-
+*/
 
 //새 웹소켓 접속시
 app.io.on("connection", (socket) => {
@@ -127,17 +127,18 @@ app.io.on("connection", (socket) => {
     });
 
     socket.on("update", (data) => {
-        let start = new Date();
-        console.log(data.event, data.delta);
-        let end = new Date();
+        //let start = new Date();
+        console.log(data.event, data.delta, data.tab_name);
+        //let end = new Date();
         //data.outputTime = data.inputTime + (end-start);
-        data.outputTime = (end-start);
+        //data.outputTime = (end-start);
         socket.broadcast.emit("update", data);
     });
 })
 
 module.exports = app;
 
+/*
 //잠시 생각해보자
 //자 일단 접속을 해, 그러면 cnt++를 해서 하나 늘리고
 //그게 index가 되는거야
@@ -156,4 +157,4 @@ module.exports = app;
 //그러니까 clientip를 알수 있으니까 그 ip를 id로 써서 그걸 move하는 거지, 그런데 create를 해야할텐데...
 //음.... 이게 되려나..? 클라이언트마다 create를 할 수 있으려나?
 //근데 생각해보면 음.. cursor를 여기서 관리하는게 맞지 않을까?
-//여기서 커서를 만들고 커서를 주고받으면 되지않을까? 아니면 저기서 ip를 만들던가 ㅇㅇ
+//여기서 커서를 만들고 커서를 주고받으면 되지않을까? 아니면 저기서 ip를 만들던가 ㅇㅇ*/

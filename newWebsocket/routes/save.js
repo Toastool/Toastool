@@ -11,9 +11,15 @@ router.get('/',function(req,res){
 router.post('/',function(req,res) {
     var code = req.body.saveContents;
     var source = code.split(/\r\n|\r|\n/).join("\n");
-    var file='main.c';
+    var file = req.body.currentTabName;
+    var filepath = "";
     
-    fs.writeFile(file, source, 'utf8', function(error) {
+    if(file == 'main.c')
+        filepath = 'main.c';
+    else
+        filepath = '/workspace/git_toastool/newWebsocket/userFile/exampleProject/' + file;
+    
+    fs.writeFile(filepath, source, 'utf8', function(error) {
         //if(err) {
         //    console.log(err);
         //    res.status(500).send('Internal Server Error');

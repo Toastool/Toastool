@@ -1,6 +1,9 @@
+var quill = [];
+
 $(document).ready(function() {
     $("div#tabs").tabs();
 
+    /*탭만들기
     // $("button#create").click(function() {
     //290번 라인에 있음
 
@@ -14,7 +17,7 @@ $(document).ready(function() {
 //     $("body").on('click','.addTab', function() {
 //         if_tab_exist(this);
 //     });
- 
+ */
 });
 
 function if_tab_exist(thisI) { //thisI - contains some id, title and text for tab content.
@@ -34,12 +37,11 @@ function close_tab(tab_id) {
 }
 
 
-
 Quill.register('modules/cursors', QuillCursors);
 const fileNameList = document.getElementById('foldertree');
 
 //뭔가 editor도 번호넣고 거기서 new Quill하면 되지않으려나
-const quill = new Quill('#editor', {
+quill[0] = new Quill('#editor1', {
   theme: 'snow',
     placeholder: 'Compose an epic...',
   modules: {
@@ -52,15 +54,18 @@ const quill = new Quill('#editor', {
 });
 
 //파일목록 새로고침, 로드하는 함수
-function fileNameListLoad() {
+function fileNameListLoad() {    
+    var tab_index = $("#tabs").tabs('option', 'active');
+    var tab = $("div#tabs ul li a");
+    var currentTabName = tab[tab_index].innerText;
     $.ajax({
     type: 'POST',
     url: 'https://toastool-yftor.run.goorm.io/load',
-    data:{'load' : "load"},
+    data:{'load' : currentTabName},
     //dataType:'json'
     })
     .done(function(data){
-        quill.setText(data.contents);
+        quill[tab_index].setText(data.contents);
    
         var fileList = data.fileList;
         var select = document.getElementById('files');
@@ -88,16 +93,18 @@ function fileNameListLoad() {
 
 }
 
-
 //페이지가 로드될때
 window.onload = function() {
     fileNameListLoad();
 }
 
-
 //$(".ajaxSend").on("click", function(){
 document.querySelector('#ajaxsend').addEventListener('click',function(){
-    var data = quill.getContents(); 
+    var tab_index = $("#tabs").tabs('option', 'active');
+    var tab = $("div#tabs ul li a");
+    var currentTabName = tab[tab_index].innerText;
+    var data = quill[tab_index].getContents(); 
+    /*
     //JSON.stringify(obj1) === JSON.stringify(obj2)
     //: 객체를 string 으로 변경 후 비교하는 방법.
     //오브젝트 비교 angular 설치 필요
@@ -107,7 +114,8 @@ document.querySelector('#ajaxsend').addEventListener('click',function(){
     //var data = "jihyeon babo";\
     //약간 코드블럭 주위로 무조건 합쳐지는거 같기도 하고?
     //근데 밑은 안그런거 같던거 같기도 한데..
-    console.log(data);
+    */
+    //console.log(data);
     var getContent = "";
     var codeblockTrueJson = {'code-block' : true};
     for(var i = 0; i < data.ops.length; i++) {
@@ -120,11 +128,11 @@ document.querySelector('#ajaxsend').addEventListener('click',function(){
 
         console.log(getContent);
     }
-    sendAjax('https://toastool-yftor.run.goorm.io/form', getContent); 
+    sendAjax('https://toastool-yftor.run.goorm.io/form', getContent, currentTabName); 
 });
 
-function sendAjax(url, data){
-    var dataJson = { "code" : data };
+function sendAjax(url, data, fileName){
+    var dataJson = { "code" : data, "filename" : fileName };
     var dataJsonString = JSON.stringify(dataJson);
     //console.log(data + "\n" + dataJson + "\n" + dataJsonString);
     
@@ -139,9 +147,9 @@ function sendAjax(url, data){
         console.log(xhr.responseText);
         var resultData = JSON.parse(xhr.responseText);
         //var resultData2 = JSON.parse(resultData);
-        console.log(resultData);
+        //console.log(resultData);
         if(resultData.result != "ok") return;
-        console.log(resultData.output);
+        //console.log(resultData.output);
         
         document.getElementById('output').value=resultData.output;
     };
@@ -149,7 +157,12 @@ function sendAjax(url, data){
 
 //저장 버튼
 document.querySelector('#save').addEventListener('click',function(){
-    var saveContents = quill.getContents(); 
+    var tab_index = $("#tabs").tabs('option', 'active');
+    var tab = $("div#tabs ul li a");
+    var currentTabName = tab[tab_index].innerText;
+    //var tab_index = document.activeElement.tabIndex;
+    //console.log(tab_index);
+    var saveContents = quill[tab_index].getContents(); 
     var pasingContent = "";
     var codeblockTrueJson = {'code-block' : true};
     for(var i = 0; i < saveContents.ops.length; i++) {
@@ -160,13 +173,15 @@ document.querySelector('#save').addEventListener('click',function(){
             continue;
         pasingContent += saveContents.ops[i].insert;
 
-        console.log(pasingContent);
+        //console.log(pasingContent);
     }
     
     $.ajax({
     type: 'POST',
     url: 'https://toastool-yftor.run.goorm.io/save',
-    data:{'saveContents' : pasingContent},
+    data:{'saveContents' : pasingContent,
+          'currentTabName' : currentTabName,
+         },
     //dataType:'json'
     })
     .done(function(result){
@@ -175,7 +190,6 @@ document.querySelector('#save').addEventListener('click',function(){
     .fail(function(request, status, error){
         alert("에러: "+ error);
     });
-
 });
 
 
@@ -192,46 +206,120 @@ document.querySelector("#plus").addEventListener('click', open);
 document.querySelector(".closeBtn").addEventListener('click', close);
 document.querySelector(".bg").addEventListener('click', close); // 요기까지 해서 모달 키고 끄는 거 마무리 해서
 
+//생각을 해보니까
+//현상 1 : 갑자기 엔터가 들어가는 상황이 발생 => 녹화 잘하면 어떻게든 될듯?
+//현상 2 : 탭 생성 순서를 다르게 하면 다른 파일에 변경사항을 적음
+// ==> 해결방법 : 탭 인덱스를 따라가는게 아니라, 탭 제목(또는 파일명)으로 일일이 찾아서 tab_index를 새로 맞춰주기
+
+//동적 탭생성, 퀼생성 함수
+function dynamic_quill(quill, value) {    
+    var cursorColor = Math.round(Math.random() * 0xffffff).toString(16);
+    var cursorName = "toastool";
+    var	cursorId = "toastool";
+    var cursorInfoJson = { id : cursorId, name : cursorName, color : cursorColor };
+    
+    quill.on('editor-change', function(eventName, ...args) {
+    //let start = new Date();
+	//console.log(args[0]);
+    if (eventName === "text-change") {
+        console.log("text-change: ", args[0]);
+        // args[0] will be delta
+      } else if (eventName === "selection-change") {
+        // args[0] will be old range
+        console.log("selection-change: ", args[0]);
+		
+      }
+        //이벤트가 유저꺼면 서버로 이벤트 전송
+        //if(args[2] && args ==="user") 였었다.....
+    if(args[2] && args[2] === "user") {
+        //let end = new Date();
+        //console.log("input time : " + end-start);
+        socket.emit("update", {
+            event: eventName,
+            delta: args[0],
+			cursorInfo: cursorInfoJson,
+            //inputTime: end-start,
+            //outputTime: 0,
+            tab_name: value,
+           });
+        }
+    });
+
+    //var senterCursorInfo = null;
+    //cursor.createCursor(cursorId.toString(), cursorName.toString(), cursorColor);
+    //console.log(cursor);
+}
+
+//main.c 텍스트 변경 이벤트 등록
+dynamic_quill(quill[0], "main.c");
+
+function dynamic_tab(value) {
+    var num_tabs = $("div#tabs ul li").length + 1;
+    var tab = $("div#tabs ul li a");
+        //현재 활성화되어있는 탭찾기
+        //$("#tabs").tabs('option', 'active'); 로는 가능
+        //document.activeElement.tabIndex 로도 가능하대.. ==> 안됨
+    var TAB_index = 0;
+    for(var i = 0; i < tab.length; i++) {
+        var tab_name = tab[i].innerText;
+        if(tab_name == value) {
+            console.log(tab_name, value);
+             TAB_index = i;
+        }
+    }
+    if(TAB_index == 0) {
+        $("div#tabs ul").append(
+            "<li><a href='#tab" + num_tabs + "'>" + value + "</a></li>"
+             //+ "<span class='ui-icon ui-icon-close' role='presentation'>삭제</span>"
+            //넣어봤는데 x자가 이상한 곳에 찍히더라 응..
+        );
+
+        $("div#tabs").append(
+            "<div id='tab" + num_tabs + "'><div id='editor" + num_tabs + "'></div></div>"
+        );
+        var quill_editor = '#editor' + num_tabs;
+        var tab_index = num_tabs - 1;
+        //var quill_name = 'quill' + num_tabs;
+        quill[tab_index] = new Quill(quill_editor, {
+          theme: 'snow',
+            placeholder: 'Compose an epic...',
+          modules: {
+            cursors: {
+              transformOnTextChange: true,
+            },
+            syntax: true,              // Include syntax module
+            toolbar: ['code-block'] 
+          },
+        });
+        dynamic_quill(quill[tab_index], value);
+
+        $("div#tabs").tabs("refresh");
+        var index_string = String(tab_index);
+        $("#tabs").tabs({active: index_string});
+        //둘이 같음
+        //console.log(tab_index, quill_counter);
+
+    }
+    else {      
+        var index_string = String(TAB_index);
+        $("#tabs").tabs({active: index_string});  
+    }
+
+}
 //html의 31번줄의 onchange 이벤트 함수
 const tab_open = (target) => {
     // option의 text 값
   //console.log(target.value);  
   //console.log(target.options[target.selectedIndex].text);
     var value = target.value;
-    //258번줄과 동일
-    var num_tabs = $("div#tabs ul li").length + 1;
-    var tab = $("div#tabs ul li a");
-        var TAB_index = -1;
-        for(var i = 0; i < tab.length; i++) {
-            var tab_name = tab[i].innerText;
-            if(tab_name == value) {
-                 TAB_index = String(i);
-            }
-        }
-        if(TAB_index == -1) {
-            $("div#tabs ul").append(
-                "<li><a href='#tab" + num_tabs + "'>" + value + "</a></li>"
-                 //+ "<span class='ui-icon ui-icon-close' role='presentation'>삭제</span>"
-                //넣어봤는데 x자가 이상한 곳에 찍히더라 응..
-            );
-
-            $("div#tabs").append(
-                "<div id='tab" + num_tabs + "'>" + value + "</div>"
-            );
-
-            $("div#tabs").tabs("refresh");
-            var tab_index = String(num_tabs - 1);
-            $("#tabs").tabs({active: tab_index});
-        }
-        else {           
-            $("#tabs").tabs({active: TAB_index});  
-        }
-    
+    dynamic_tab(value);
+    //파일을 새로고침하고 quil에 파일 내용 쓰는 함수지만
+    //새로고침하면 좋지않을까(?) 일단 재활용 ㅋㅋ
+    fileNameListLoad();
 }
 //+버튼 누를때
 document.querySelector('#create').addEventListener('click',function(){ 
-//우리 서버에 userFile/exampleProject/(파일명) 경로로 저장, 현재는 프로젝트이름이 없어서 일단 중간은 안해놨음..
-    
+//우리 서버에 userFile/exampleProject/(파일명) 경로로 저장, 현재는 프로젝트이름이 없어서 일단 중간은 안해놨음..  
     const filename = document.querySelector("#filename").value; 
     
     //파일 생성 요청
@@ -245,6 +333,7 @@ document.querySelector('#create').addEventListener('click',function(){
         //완료되면 탭으로 추가가되고 그 내용은 아무것도 없다.
         //#filename의 text 안의 내용은 리셋된다.
         fileNameListLoad(); //17번 줄에 있음
+        /*
 		// reloadDivArea();
  
 		// function reloadDivArea() {
@@ -259,51 +348,26 @@ document.querySelector('#create').addEventListener('click',function(){
         //         $("#tabs").tabs({active: TAB_index}); //Will activate already exist tab
         //     }
         // }
-        var num_tabs = $("div#tabs ul li").length + 1;
-        var tab = $("div#tabs ul li a");
-        var TAB_index = -1;
-        for(var i = 0; i < tab.length; i++) {
-            var tab_name = tab[i].innerText;
-            if(tab_name == filename) {
-                 TAB_index = String(i);
-            }
-        }
-        if(TAB_index == -1) {
-            $("div#tabs ul").append(
-                "<li><a href='#tab" + num_tabs + "'>" + filename + "</a></li>"
-                 //+ "<span class='ui-icon ui-icon-close' role='presentation'>삭제</span>"
-                //넣어봤는데 x자가 이상한 곳에 찍히더라 응..
-            );
-
-            $("div#tabs").append(
-                "<div id='tab" + num_tabs + "'>" + filename + "</div>"
-            );
-
-            $("div#tabs").tabs("refresh");
-            var tab_index = String(num_tabs - 1);
-            $("#tabs").tabs({active: tab_index});
-
-        }
-        else {           
-            $("#tabs").tabs({active: TAB_index});  
-        }
-
+        */
+        dynamic_tab(filename);
     })
     .fail(function(request, status, error){
         alert("에러: "+ error);
     });
+    /*
   //이부분 지현이가 해줘(?) "해줘"
     //모달창이 닫히면
 //왼쪽 fileList는 새로고침이 되고(파일이 추가되고)
 //quill안의 내용도 새로고침(없어짐), 결과창 내용도 없어짐(보류)
 //이건 지우고 #create 버튼 눌렀을 때 ** 부터 실행할 수 있도록 하면 될거 같아용 이해 안되면 말하기 !!
-
+*/
 }); 
                                                      
 
 //소켓을 접속
 const socket = io("https://toastool-yftor.run.goorm.io", {transports :['websocket']});
 
+/*
 //quill 객체 하나당 아이디가 하나 가능
 //==> 그러면 클라이언트 입장이니까 어차피 아이디는 같게, 그리고 사용자이름, 랜덤색상으로 하면
 //클라이언트마다 생기지 않나? 아 생각해보니까 id가 한개여야 하니까 중복으로 생성이 안 되었던 것 같아
@@ -313,7 +377,7 @@ const socket = io("https://toastool-yftor.run.goorm.io", {transports :['websocke
 
 //오!!! 색깔 달라졌어!!!!!! 나이서ㅜㅜㅜ 다행이다 그러면 하나만 생성하면 될 것 같아 ㅇㅇ
 //그러면 하나만 생성하도록 하면 될 것 같은데,
-
+*/
 /*
 배열없이 그냥 객체 하나에 이름은 사용자이름 받아오고, 색은 랜덤
 그걸로 어떻게 움직일 수 있는지는 알아봐야...
@@ -405,7 +469,8 @@ id를 같게 하고 어차피 다르게 생긴 걔들을 움직이려면 서버�
 클라이언트 내부에서는 이미 그 아이디로 만든 커서가 있을 것이고,
 그거랑 겹치면 create가 안되니까
 */
-// const singletonCursorClass = (function() {
+/*
+/// const singletonCursorClass = (function() {
 // 	var instance;
 // 	var cursor;
 	
@@ -464,75 +529,19 @@ id를 같게 하고 어차피 다르게 생긴 걔들을 움직이려면 서버�
 // cursorArray[1].createCursor('cursor', 'user2', 'red');
 // console.log(cursorArray);
 
-const cursor = quill.getModule('cursors');
-var cursorColor = Math.round(Math.random() * 0xffffff).toString(16);
-var cursorName = "toastool";
-var	cursorId = "toastool";
-var cursorInfoJson = { id : cursorId, name : cursorName, color : cursorColor };
+// //const cursor = quill[quill_counter].getModule('cursors');
+// var cursorColor = Math.round(Math.random() * 0xffffff).toString(16);
+// var cursorName = "toastool";
+// var	cursorId = "toastool";
+// var cursorInfoJson = { id : cursorId, name : cursorName, color : cursorColor };
+*/
 var senterCursorInfo = null;
-cursor.createCursor(cursorId.toString(), cursorName.toString(), cursorColor);
-console.log(cursor);
+//cursor.createCursor(cursorId.toString(), cursorName.toString(), cursorColor);
+//console.log(cursor);
 
 
-quill.on('editor-change', function(eventName, ...args) {
-    let start = new Date();
-	//console.log(args[0]);
-    if (eventName === "text-change") {
-        console.log("text-change: ", args[0]);
-        //난.. 뭘한것이지..
-        
-        // console.log(quill.getFormat(args[0].ops[0].retain, args[0].ops[0].retain+1))
-        // var codeblockTrueJson = {'code-block' : true};
-        // //var codeblockNullJson = {'code-block' : null};
-        // if(JSON.stringify(quill.getFormat(args[0].ops[0].retain, args[0].ops[0].retain+1)) === JSON.stringify(codeblockTrueJson)) {
-        //     //처음부터 다시 해보자
-        //     if(args[0].ops[1].insert === undefined) {
-        //         return;
-        //     }
-        //     getContent += args[0].ops[1].insert;
-        //     console.log(getContent);
-            
-            //     console.log("왜째서..");
-        // //if(args[0].ops[1].insert === undefined) {
-        //     if(concatFlag == true) {
-        //         concatFlag = false;
-        //         return;
-        //     }
-        //     else {
-        //         concatFlag = true;
-            
-        //     }
-        // }
 
-        // if(concatFlag === true) {
-        //     getContent += args[0].ops[1].insert;
-        //     // let [line, offset] = quill.getLine(args[0].ops[0].retain);
-        //     // console.log(line.children.tail.text);
-        //     // getContent += line.children.tail.text;
-        //     console.log(getContent);
-        //}
-
-        // args[0] will be delta
-      } else if (eventName === "selection-change") {
-        // args[0] will be old range
-        console.log("selection-change: ", args[0]);
-		
-      }
-        //이벤트가 유저꺼면 서버로 이벤트 전송
-        //if(args[2] && args ==="user") 였었다.....
-    if(args[2] && args[2] === "user") {
-        let end = new Date();
-        console.log("input time : " + end-start);
-        socket.emit("update", {
-            event: eventName,
-            delta: args[0],
-			cursorInfo: cursorInfoJson,
-            inputTime: end-start,
-            outputTime: 0,
-           });
-        }
-    });
- 
+ //아이디 받아오는법?
 // socket.on("connect", function (req) {
 //     var ip_addr  = req.header['x-forwarded-for'] || req.connection.remoteAddress;
 //     console.log("ip : "+ip_addr);
@@ -546,40 +555,52 @@ socket.on("connect", function(socket){
     //이벤트네임과 delta분리
 //그럼 여기가 emit해서 서버로 전송해서 서버에서 broadcast해서 내가 아닌 다른사람의 이벤트를 받는 곳
 socket.on("update", function (data) {
-    let start = new Date();
+    //let start = new Date();
     const eventName = data.event;
     const delta = data.delta;
 	const cursorInfo = data.cursorInfo;
+    const value = data.tab_name;
     //const cs = data.cursor;
-	//console.log(delta);
-    
+	//console.log(tab_index);
+    var num_tabs = $("div#tabs ul li").length + 1;
+    var tab = $("div#tabs ul li a");
+    var TAB_index = -1;
+    for(var i = 0; i < tab.length; i++) {
+        var tab_name = tab[i].innerText;
+        if(tab_name == value) {
+             TAB_index = i;
+        }
+    }
+    console.log(TAB_index);
         //text변경이면 delta적용
     if(eventName === "text-change") {
-        quill.updateContents(delta);
-        let end = new Date();
+        quill[TAB_index].updateContents(delta);
+        /* 시간 측정
+        //let end = new Date();
         //var time = {time : end-start};
-        var time = end - start;
-        console.log("input Time : " + data.inputTime);
-        console.log("outputTime : " + data.outputTime);
-        console.log("sync time : " + time);
-        var totalTime = time + data.inputTime+ data.outputTime;
-        console.log("total time :" + totalTime);
+       // var time = end - start;
+        // console.log("input Time : " + data.inputTime);
+        // console.log("outputTime : " + data.outputTime);
+        // console.log("sync time : " + time);
+        //var totalTime = time + data.inputTime+ data.outputTime;
+        // console.log("total time :" + totalTime);
+        */
     }
         
     else if(eventName === "selection-change") {
-        var range = quill.getSelection();
-        quill.setSelection(range.index, delta.length);
+        var range = quill[TAB_index].getSelection();
+        quill[TAB_index].setSelection(delta.length);
         //quill.setSelection(null, delta.length);
         //quill.setSelection(delta.index, delta.length);
         senterCursorInfo = cursorInfo;
-		selectionChangeHandler(senterCursorInfo, delta);
+		selectionChangeHandler(senterCursorInfo, delta, TAB_index);
     }
 });
 
 //아 매번 생성해야하는 것 같기도 하고
 //매번 다른 사람의 이벤트를 받아올 수도 있으니까
-function selectionChangeHandler(cursorInfo, delta) {
-	const cursor = quill.getModule('cursors');
+function selectionChangeHandler(cursorInfo, delta, tab_index) {
+	const cursor = quill[tab_index].getModule('cursors');
 	cursor.createCursor(cursorInfo.id.toString(), cursorInfo.name.toString(), cursorInfo.color.toString());
 	cursor.moveCursor(cursorInfo.id.toString(), { index : delta.index, length : delta.length });
 	//지금은 id가 달라서 그런가..? update가 자꾸 내쪽에서만 되네 뭐지 

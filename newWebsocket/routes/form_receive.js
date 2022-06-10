@@ -12,10 +12,14 @@ router.get('/',function(req,res){
 router.post('/',function(req,res) {
     var code = req.body.code;
     var source = code.split(/\r\n|\r|\n/).join("\n");
-    var file='main.c';
-    
+    var file = req.body.filename;
+    var filepath = "";
+    if(file == 'main.c')
+        filepath = 'main.c';
+    else
+        filepath = '/workspace/git_toastool/newWebsocket/userFile/exampleProject/' + file;
     //파일 저장
-    fs.writeFile(file,source,'utf8', function(error) {
+    fs.writeFile(filepath,source,'utf8', function(error) {
         //if(err) {
         //    console.log(err);
         //    res.status(500).send('Internal Server Error');
@@ -33,7 +37,7 @@ router.post('/',function(req,res) {
     
     //진짜 결론 : spawn을 좀 더 공부해봐야 함. --> 하지만 깊은 설명을 해주는 곳은 그렇게 없음..
     //+컴파일한 내용만을 보낼 수 있는 법을 따로 조사해봐야 할듯
-    var compile = spawn('gcc', [file]);
+    var compile = spawn('gcc', [filepath]);
     var errorData = "";
 
     compile.stdout.on('data',function(data) {
