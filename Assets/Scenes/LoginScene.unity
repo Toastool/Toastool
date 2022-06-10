@@ -939,6 +939,8 @@ MonoBehaviour:
   PasswordInput: {fileID: 1023450888}
   LoginButton: {fileID: 324672134}
   RegisterButton: {fileID: 474220301}
+  firstInput: {fileID: 1461798206}
+  submitButton: {fileID: 324672134}
 --- !u!1 &612859925
 GameObject:
   m_ObjectHideFlags: 0
@@ -985,6 +987,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c154eabd02cb3440af6148943013663, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ErrorTxt: {fileID: 0}
 --- !u!114 &612859928
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -998,6 +1001,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Web: {fileID: 0}
+  _loginCanvas: {fileID: 529667493}
+  _registCanvas: {fileID: 1626694310}
 --- !u!1 &651366257
 GameObject:
   m_ObjectHideFlags: 0
@@ -1140,7 +1145,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Enter ID...
+  m_Text: Enter PassWord...
 --- !u!222 &705508345
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2231,6 +2236,8 @@ MonoBehaviour:
   UsernameInput: {fileID: 2054884132}
   PasswordInput: {fileID: 229907579}
   RegisterButton: {fileID: 1953258910}
+  firstInput: {fileID: 2054884132}
+  submitButton: {fileID: 1953258910}
 --- !u!1 &1637400184
 GameObject:
   m_ObjectHideFlags: 0

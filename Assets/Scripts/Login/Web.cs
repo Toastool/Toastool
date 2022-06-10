@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class Web : MonoBehaviour
 {
+
     // Start is called before the first frame update
     void Start()
     {
@@ -52,6 +53,7 @@ public class Web : MonoBehaviour
             else
             {
                 Debug.Log(www.downloadHandler.text);
+                SceneManager.LoadScene("SampleScene");
             }
         }
     }
