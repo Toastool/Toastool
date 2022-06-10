@@ -30,7 +30,7 @@ public class CreateRoomMenu : MonoBehaviourPunCallbacks
 
     public void Spawn()
     {
-        PhotonNetwork.Instantiate("Player", Vector3.zero, Quaternion.identity);
+        PhotonNetwork.Instantiate("Player_remodel", Vector3.zero, Quaternion.identity);
         Debug.Log("I'm in the room.");
     }
 

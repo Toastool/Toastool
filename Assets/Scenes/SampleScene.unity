@@ -489,7 +489,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.0000054584416}
+  m_AnchoredPosition: {x: 0, y: 3.7711473}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &120257041
@@ -1632,7 +1632,7 @@ MonoBehaviour:
   voiceDetectionThreshold: 0.01
   voiceDetectionDelayMs: 500
   unityMicrophoneDevice: 
-  photonMicrophoneDeviceId: -1
+  photonMicrophoneDeviceId: 0
   interestGroup: 0
   debugEchoMode: 0
   reliableMode: 0
@@ -2733,7 +2733,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 83500480}
   m_Direction: 2
   m_Value: 0
-  m_Size: 1
+  m_Size: 0.7784213
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -28178,7 +28178,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30228a0f749744a448ce4c2bd48d92f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameObject: {fileID: 4072385364472532612, guid: 546ecbc1c2c76ef468313a91ca172f64, type: 3}
+  gameObject: {fileID: 3023756831776226206, guid: 546ecbc1c2c76ef468313a91ca172f64, type: 3}
 --- !u!61 &1820633325
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -32830,6 +32830,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Main Camera
       objectReference: {fileID: 0}
+    - target: {fileID: 1974895663370441998, guid: 7b7d0534825ec354c91143cd49ce8173, type: 3}
+      propertyPath: target
+      value: 
+      objectReference: {fileID: 1763784059264285590, guid: 36a4a127929ca2d469ccc1968f0d0acf, type: 3}
     - target: {fileID: 1974895663370442224, guid: 7b7d0534825ec354c91143cd49ce8173, type: 3}
       propertyPath: m_RootOrder
       value: 0
