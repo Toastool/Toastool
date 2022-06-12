@@ -5,14 +5,31 @@ using UnityEngine;
 public class ChangeCutomize : MonoBehaviour {
     [SerializeField]
     private RuntimeAnimatorController afterItem;
+    [SerializeField]
+    private RuntimeAnimatorController body;
+    private RuntimeAnimatorController presItem;
 
-    // Shirts, Pants 하이어라키에서 이름 맞추어서 바꾸어주시면 됩니다.
     public void changeHairstyle() {
-        GameObject.Find("Hairstyle").GetComponent<Animator>().runtimeAnimatorController = afterItem;
-        Debug.Log("Test");
+        presItem = GameObject.Find("Hairstyle").GetComponent<Animator>().runtimeAnimatorController;
+        if (presItem != afterItem) {
+            presItem = GameObject.Find("Outfit").GetComponent<Animator>().runtimeAnimatorController;
+            GameObject.Find("Player_remodel(Clone)").GetComponent<Animator>().runtimeAnimatorController = afterItem;
+            GameObject.Find("Player_remodel(Clone)").GetComponent<Animator>().runtimeAnimatorController = body;
+            GameObject.Find("Hairstyle").GetComponent<Animator>().runtimeAnimatorController = afterItem;
+            GameObject.Find("Outfit").GetComponent<Animator>().runtimeAnimatorController = afterItem;
+            GameObject.Find("Outfit").GetComponent<Animator>().runtimeAnimatorController = presItem;
+        }
     }
 
     public void changeOutfit() {
-        GameObject.Find("Outfit").GetComponent<Animator>().runtimeAnimatorController = afterItem;
+        presItem = GameObject.Find("Outfit").GetComponent<Animator>().runtimeAnimatorController;
+        if (presItem != afterItem) {
+            presItem = GameObject.Find("Hairstyle").GetComponent<Animator>().runtimeAnimatorController;
+            GameObject.Find("Player_remodel(Clone)").GetComponent<Animator>().runtimeAnimatorController = afterItem;
+            GameObject.Find("Player_remodel(Clone)").GetComponent<Animator>().runtimeAnimatorController = body;
+            GameObject.Find("Hairstyle").GetComponent<Animator>().runtimeAnimatorController = afterItem;
+            GameObject.Find("Hairstyle").GetComponent<Animator>().runtimeAnimatorController = presItem;
+            GameObject.Find("Outfit").GetComponent<Animator>().runtimeAnimatorController = afterItem;
+        }
     }
 }
