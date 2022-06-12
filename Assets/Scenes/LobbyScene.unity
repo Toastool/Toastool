@@ -206,7 +206,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1192504962}
   m_Direction: 2
   m_Value: 0
-  m_Size: 1
+  m_Size: 0.96585125
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -1344,6 +1344,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _roomname: {fileID: 1527441608}
+  position: {x: 0, y: -4, z: 0}
 --- !u!1 &804785201
 GameObject:
   m_ObjectHideFlags: 0
@@ -1756,7 +1757,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.000015258789}
+  m_AnchoredPosition: {x: 0, y: 0.029138807}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1216454834
@@ -1993,6 +1994,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _content: {fileID: 1216454833}
   _roomListing: {fileID: 4773826699699649609, guid: a0a2b3f71c7be904190d4c98be7002e7, type: 3}
+  spawnPoint: {x: 0, y: -4, z: 0}
 --- !u!1 &1402920599
 GameObject:
   m_ObjectHideFlags: 0

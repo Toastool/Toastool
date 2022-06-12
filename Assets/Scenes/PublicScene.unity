@@ -24971,7 +24971,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30228a0f749744a448ce4c2bd48d92f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameObject: {fileID: 3023756831776226206, guid: 546ecbc1c2c76ef468313a91ca172f64, type: 3}
+  gameObject: {fileID: 6748502269293857516, guid: 546ecbc1c2c76ef468313a91ca172f64, type: 3}
 --- !u!61 &2049823478
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -25077,6 +25077,10 @@ PrefabInstance:
     - target: {fileID: 677513207515637064, guid: 36a4a127929ca2d469ccc1968f0d0acf, type: 3}
       propertyPath: m_LocalPosition.y
       value: -1.89
+      objectReference: {fileID: 0}
+    - target: {fileID: 1763560797148810702, guid: 36a4a127929ca2d469ccc1968f0d0acf, type: 3}
+      propertyPath: sceneViewId
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1763784059264285578, guid: 36a4a127929ca2d469ccc1968f0d0acf, type: 3}
       propertyPath: sceneViewId

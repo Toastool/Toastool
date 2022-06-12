@@ -13,13 +13,10 @@ public class CreateRoomMenu : MonoBehaviourPunCallbacks
     private Text _roomname;
     RoomListingsMenu RoomListingsMenu;
     private RoomCanvases _roomCanvases;
-<<<<<<< Updated upstream
     [SerializeField]
     private Vector3 position;
-=======
     public static Guid new_guid;
     public static string projectcode;
->>>>>>> Stashed changes
 
     public void FirstInitialize(RoomCanvases canvases)
     {
@@ -42,13 +39,10 @@ public class CreateRoomMenu : MonoBehaviourPunCallbacks
 
     public void Spawn()
     {
-<<<<<<< Updated upstream
         PhotonNetwork.Instantiate("Player_remodel", position, Quaternion.identity);
         Debug.Log("I'm in the room.");
-=======
         PhotonNetwork.Instantiate("Player_remodel", Vector3.zero, Quaternion.identity);
         Debug.Log("I'm in the room.(create)");
->>>>>>> Stashed changes
     }
 
     public override void OnCreatedRoom()
