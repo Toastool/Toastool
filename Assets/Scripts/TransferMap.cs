@@ -17,7 +17,7 @@ public class TransferMap : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.name == "Player(Clone)")
+        if (collision.gameObject.name == "Player_remodel(Clone)")
         {
             Debug.Log("Hit door");
             if (collision.gameObject.TryGetComponent(out PlayerScript player))

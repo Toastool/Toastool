@@ -30,7 +30,7 @@ public class PlayerScript : MonoBehaviourPunCallbacks, IPunObservable
     {
         //닉네임 표시
         NickNameText.text = PV.IsMine ? PhotonNetwork.NickName : PV.Owner.NickName;
-
+        //NickNameText.text = Web.userID;
     }
 
     void Update()
@@ -67,7 +67,7 @@ public class PlayerScript : MonoBehaviourPunCallbacks, IPunObservable
         if (stream.IsWriting) //나
         {
             stream.SendNext(transform.position);
-            //stream.SendNext(anim);
+            stream.SendNext(anim);
         }
         else //나 말고
         {

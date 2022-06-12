@@ -27,6 +27,7 @@ public class Follow : MonoBehaviour
 
     void LateUpdate()
     {
+        
         //transform.position = new Vector3(target.position.x, target.position.y, -10f);
         if (GameObject.Find("Player_remodel") != null)
             transform.position = Vector3.Lerp(transform.position, target.position, Time.deltaTime * speed);

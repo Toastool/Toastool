@@ -14,7 +14,7 @@ public class StartPoint : MonoBehaviour
         theCamera = FindObjectOfType<Follow>();
         thePlayer = FindObjectOfType<PlayerScript>();
 
-        isPlayer = GameObject.Find("Player(Clone)");
+        isPlayer = GameObject.Find("Player_remodel(Clone)");
         if (isPlayer != null)
         {
             if (gameObject.TryGetComponent(out PlayerScript player))

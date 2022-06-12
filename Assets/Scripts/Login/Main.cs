@@ -6,6 +6,7 @@ public class Main : MonoBehaviour
 {
     public static Main Instance;
     public Web Web;
+
     [SerializeField]
     private Login _loginCanvas;
     public Login LoginCanvas { get { return _loginCanvas; } }

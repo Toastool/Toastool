@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class Web : MonoBehaviour
 {
+    public static string userID;
 
     // Start is called before the first frame update
     void Start()
@@ -31,7 +32,9 @@ public class Web : MonoBehaviour
             else
             {
                 Debug.Log(www.downloadHandler.text);
-                SceneManager.LoadScene("SampleScene");
+                
+                SceneManager.LoadScene("LobbyScene");
+                userID = username;
             }
         }
     }
@@ -53,7 +56,8 @@ public class Web : MonoBehaviour
             else
             {
                 Debug.Log(www.downloadHandler.text);
-                SceneManager.LoadScene("SampleScene");
+                SceneManager.LoadScene("LobbyScene");
+                userID = username;
             }
         }
     }

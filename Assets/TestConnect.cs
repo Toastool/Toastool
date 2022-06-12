@@ -10,20 +10,36 @@ public class TestConnect : MonoBehaviourPunCallbacks
     private void Start()
     {
         print("Connecting to server.");
-        PhotonNetwork.NickName = MasterManager.GameSettings.NickName;
+        PhotonNetwork.NickName = Web.userID;
         PhotonNetwork.GameVersion = MasterManager.GameSettings.GameVersion;
         PhotonNetwork.ConnectUsingSettings();
+       
     }
-
+    IEnumerator Upload()
+    {
+        string url = "https://toastool-yftor.run.goorm.io?Name=" + UnityWebRequest.EscapeURL(PhotonNetwork.NickName);
+        Debug.Log(url);
+        UnityWebRequest www = UnityWebRequest.Get(url);
+        yield return www.SendWebRequest();
+        if (www.result != UnityWebRequest.Result.Success)
+        {
+            Debug.Log(www.error);
+        }
+        else
+        {
+            Debug.Log("Upload complete!");
+        }
+    }
     public override void OnConnectedToMaster()
     {
         Debug.Log("Connected to Photon.", this);
 
         Debug.Log("My nickname is " + PhotonNetwork.LocalPlayer.NickName, this);
-
+        StartCoroutine(Upload());
         Debug.Log("My nickname will be " + PhotonNetwork.NickName);
         if (!PhotonNetwork.InLobby)
             PhotonNetwork.JoinLobby();
+
     }
 
     public override void OnDisconnected(DisconnectCause cause)

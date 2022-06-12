@@ -3,7 +3,7 @@ using Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 public class RoomListingsMenu : MonoBehaviourPunCallbacks
 {
     [SerializeField]
@@ -21,17 +21,19 @@ public class RoomListingsMenu : MonoBehaviourPunCallbacks
 
     public void Spawn()
     {
-        PhotonNetwork.Instantiate("Player", Vector3.zero, Quaternion.identity);
-        Debug.Log("I'm in the room.");
+        PhotonNetwork.Instantiate("Player_remodel", Vector3.zero, Quaternion.identity);
+        Debug.Log("I'm in the room.(join)");
     }
 
     public override void OnJoinedRoom()
     {
         Debug.Log("Join room succesed");
-        _roomsCanvases.CurrentRoomCanvas.Show();
+
+        //_roomsCanvases.CurrentRoomCanvas.Show();
+        SceneManager.LoadScene("SampleScene");
         _content.DestroyChildren();
         _listings.Clear();
-        _roomsCanvases.CreateOrJoinRoomCanvas.Hide();
+        //_roomsCanvases.CreateOrJoinRoomCanvas.Hide();
         Spawn();
     }
 
