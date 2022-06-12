@@ -170,7 +170,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 270, y: 155}
+  m_AnchoredPosition: {x: 319, y: 168}
   m_SizeDelta: {x: 30, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1632791289726782431
@@ -316,8 +316,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 29.5, y: -465.5}
-  m_SizeDelta: {x: 509, y: 387}
+  m_AnchoredPosition: {x: -51, y: -423}
+  m_SizeDelta: {x: 640, y: 360}
   m_Pivot: {x: 0, y: 0}
 --- !u!222 &4914119191743936448
 CanvasRenderer:
@@ -366,12 +366,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3cf88a6a242a01d4c883bf380eadfd93, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Width: 1024
-  Height: 768
-  AutoFitParent: 1
+  Width: 1920
+  Height: 1080
+  AutoFitParent: 0
   MemoryFile: MainSharedMem
   RandomMemoryFile: 1
-  InitialURL: http://www.google.com
+  InitialURL: https://www.youtube.com/
   StreamingResourceName: 
   EnableWebRTC: 0
   EnableGPU: 0
