@@ -31,7 +31,7 @@ public class SetActive : MonoBehaviour
             }
         }
     }
-
+    /*
     private void OnTriggerEnter2D(Collision2D collision)
     {
         if (collision.gameObject.name == "Player_remodel")
@@ -39,4 +39,5 @@ public class SetActive : MonoBehaviour
               
         }
     }
+    */
 }
