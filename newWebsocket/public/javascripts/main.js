@@ -1,4 +1,5 @@
 var quill = [];
+var userid = 'toastool';
 
 $(document).ready(function() {
     $("div#tabs").tabs();
@@ -9,17 +10,66 @@ $(document).ready(function() {
 
     // });
 
-//CLose
-//     $("body").on('click','.ui-tabs-nav .ui-state-default i', function() {
-//         close_tab($(this).attr('target'));
-//     });
+CLose
+
 //     //Add
 //     $("body").on('click','.addTab', function() {
 //         if_tab_exist(this);
 //     });
  */
+    // function close_tab(tab_id) {
+    //     console.log(tab_id.parent());
+    //     $('#tabs div#tab' + tab_id).remove();
+    //     //$('.ui-tabs-nav i[target='+tab_id+']').parent().remove();       
+    //     //$('#tabs div#'+tab_id+']').remove();
+    //     $("#tabs").tabs("refresh");
+    // }
+    
+    //$("body").on('click','.ui-tabs-nav .ui-state-default i', function() {
+
+});
+// $("body").on('click', '.ui-icon-close', function() {
+//     console.log('close click');
+//     var tabContainerDiv=$(this).closest(".ui-tabs").attr("id");
+//     var panelId = $( this ).closest( "li" ).remove().attr( "aria-controls" );
+//     $( "#" + panelId ).remove();
+//     $("#"+tabContainerDiv).tabs("refresh");
+//     var tabCount=$("#"+tabContainerDiv).find(".ui-icon-close").length;
+//     if (tabCount<1) {
+//         $("#"+tabContainerDiv).hide();
+//     }
+// });
+
+//닫는건 성공했는데
+//다시 파일목록에서 선택해서 열면 자동 활성화x, 파일내용이 안불러와짐
+//+ x 아이콘이 추가되면서 tab 여러개 쌓이거나 계속 닫히면ㅋㅋ 공간이 이상해짐
+//ㅋㅋㅋ모르겠다.. 하지말자...
+$("body").on('click','.ui-icon-close', function() {
+    var tab = $("div#tabs ul li a");
+    var current_click_index = -1;
+    for(var i = 0; i < tab.length; i++) {
+        var currentTabName = tab[i].innerText;
+        var currentCloseTab = $(this)[0].innerText;
+        console.log(currentCloseTab);
+        if(currentCloseTab == currentTabName)
+            current_click_index = i;
+    }
+    var close_tab_num = current_click_index + 1;
+    console.log(current_click_index);
+    
+    tab[current_click_index].remove();
+    this.remove();
+    $('#tabs div#tab'+close_tab_num).remove();    
+    //console.log($('.ui-tabs-nav i[target='+current_click_index+']').parent());
+    //console.log($('#tabs div#tab'+close_tab_num));
+    //$('.ui-tabs-nav i[target='+close_tab_num+']').parent().remove();
+
+    $("#tabs").tabs("refresh");
+    var tab_active_index = String(current_click_index-1);
+    $("#tabs").tabs({active: tab_active_index});
 });
 
+/*
 function if_tab_exist(thisI) { //thisI - contains some id, title and text for tab content.
     var tab_id = $(thisI).attr('id');
     if(!$('.ui-tabs-nav li#'+tab_id).is('*')) {
@@ -29,13 +79,7 @@ function if_tab_exist(thisI) { //thisI - contains some id, title and text for ta
         $("#tabs").tabs({active: TAB_index}); //Will activate already exist tab
     }
 }
-
-function close_tab(tab_id) {
-    $('.ui-tabs-nav i[target='+tab_id+']').parent().remove();       
-    $('#tabs div#'+tab_id+']').remove();
-    $("#tabs").tabs("refresh");
-}
-
+ tab exist 확인하는 함수 (다른 곳에서 퍼왔음) */
 
 Quill.register('modules/cursors', QuillCursors);
 const fileNameList = document.getElementById('foldertree');
@@ -96,6 +140,16 @@ function fileNameListLoad() {
 //페이지가 로드될때
 window.onload = function() {
     fileNameListLoad();
+		//userid 가져오는 부분
+	const url = window.location.href;
+	const urlParams = url.searchParams;
+	var userid_beforSplit = String(urlParams.get('Name'));
+    var userid_split_array = userid_beforSplit.split('=');
+    userid = userid_split_array[1];
+	console.log(userid);
+    
+    //568번줄에 ip가져오는 코드 있음 (이건진짜 접속해 있는 사람 아이피 번호 xxx.xxx.xxx 같은 거 불러오는 거라 위에걸로 쓰는게 맞을듯 합니다 ㅎㅎ ,,)
+    //확인 필요!
 }
 
 //$(".ajaxSend").on("click", function(){
@@ -126,7 +180,7 @@ document.querySelector('#ajaxsend').addEventListener('click',function(){
             continue;
         getContent += data.ops[i].insert;
 
-        console.log(getContent);
+        //console.log(getContent);
     }
     sendAjax('https://toastool-yftor.run.goorm.io/form', getContent, currentTabName); 
 });
@@ -139,12 +193,12 @@ function sendAjax(url, data, fileName){
     var xhr = new XMLHttpRequest();
     xhr.open('POST', url, true);
     xhr.setRequestHeader('Content-type','application/json');   
-    console.log(dataJsonString);
+    //console.log(dataJsonString);
     xhr.send(dataJsonString);
  
     //혹시 이것도 위에처럼 $().on('load')...는 아닐텐데...
     xhr.onload = function() {
-        console.log(xhr.responseText);
+        //console.log(xhr.responseText);
         var resultData = JSON.parse(xhr.responseText);
         //var resultData2 = JSON.parse(resultData);
         //console.log(resultData);
@@ -204,19 +258,34 @@ const close = () => {
 
 document.querySelector("#plus").addEventListener('click', open);
 document.querySelector(".closeBtn").addEventListener('click', close);
+document.querySelector("#back").addEventListener('click', close)
 document.querySelector(".bg").addEventListener('click', close); // 요기까지 해서 모달 키고 끄는 거 마무리 해서
 
 //생각을 해보니까
 //현상 1 : 갑자기 엔터가 들어가는 상황이 발생 => 녹화 잘하면 어떻게든 될듯?
 //현상 2 : 탭 생성 순서를 다르게 하면 다른 파일에 변경사항을 적음
 // ==> 해결방법 : 탭 인덱스를 따라가는게 아니라, 탭 제목(또는 파일명)으로 일일이 찾아서 tab_index를 새로 맞춰주기
-
+var cursorsArray = new Array();
 //동적 탭생성, 퀼생성 함수
-function dynamic_quill(quill, value) {    
+function dynamic_quill(quill, value) { 
     var cursorColor = Math.round(Math.random() * 0xffffff).toString(16);
-    var cursorName = "toastool";
-    var	cursorId = "toastool";
+    var cursorName = userid;
+    var	cursorId = userid;
     var cursorInfoJson = { id : cursorId, name : cursorName, color : cursorColor };
+    //같은 아이디의 커서가 있으면 그 커서의 색깔로 나타나게
+    var cursorIndex = -1;
+    for(var i = 0; i < cursorsArray.length; i++) {
+        if(cursorId == cursorsArray[i].id) {
+            cursorIndex = i;
+            //console.log(cursorsArray);
+            cursorInfoJson = cursorsArray[cursorIndex];
+        }
+    }
+    if(cursorIndex == -1) {
+        cursorsArray.push(cursorInfoJson);
+        //console.log(cursorsArray);        
+    }
+
     
     quill.on('editor-change', function(eventName, ...args) {
     //let start = new Date();
@@ -263,15 +332,16 @@ function dynamic_tab(value) {
     for(var i = 0; i < tab.length; i++) {
         var tab_name = tab[i].innerText;
         if(tab_name == value) {
-            console.log(tab_name, value);
+            //console.log(tab_name, value);
              TAB_index = i;
         }
     }
     if(TAB_index == 0) {
         $("div#tabs ul").append(
             "<li><a href='#tab" + num_tabs + "'>" + value + "</a></li>"
-             //+ "<span class='ui-icon ui-icon-close' role='presentation'>삭제</span>"
-            //넣어봤는데 x자가 이상한 곳에 찍히더라 응..
+             //+ "<span class='ui-icon ui-icon-close' role='presentation'>" + value + "</span>"
+            //넣어봤는데 x자가 이상한 곳에 찍히더라 응.. + 47번라인에 닫히는 이벤트를 달아놓긴 했는데
+            //응.. 그만 하자...
         );
 
         $("div#tabs").append(
@@ -332,7 +402,8 @@ document.querySelector('#create').addEventListener('click',function(){
     .done(function(result){
         //완료되면 탭으로 추가가되고 그 내용은 아무것도 없다.
         //#filename의 text 안의 내용은 리셋된다.
-        fileNameListLoad(); //17번 줄에 있음
+        document.querySelector('#filename').value = ''; //input box 내용 지우는 부분
+		fileNameListLoad(); //17번 줄에 있음
         /*
 		// reloadDivArea();
  
@@ -571,7 +642,7 @@ socket.on("update", function (data) {
              TAB_index = i;
         }
     }
-    console.log(TAB_index);
+    //console.log(TAB_index);
         //text변경이면 delta적용
     if(eventName === "text-change") {
         quill[TAB_index].updateContents(delta);
@@ -589,11 +660,15 @@ socket.on("update", function (data) {
         
     else if(eventName === "selection-change") {
         var range = quill[TAB_index].getSelection();
-        quill[TAB_index].setSelection(delta.length);
-        //quill.setSelection(null, delta.length);
-        //quill.setSelection(delta.index, delta.length);
-        senterCursorInfo = cursorInfo;
-		selectionChangeHandler(senterCursorInfo, delta, TAB_index);
+        //console.log(delta);
+        if(delta != null) {
+            quill[TAB_index].setSelection(delta.length);
+            //quill.setSelection(null, delta.length);
+            //quill.setSelection(delta.index, delta.length);
+            senterCursorInfo = cursorInfo;
+            //console.log(cursorInfo);
+            selectionChangeHandler(senterCursorInfo, delta, TAB_index); 
+        }
     }
 });
 
