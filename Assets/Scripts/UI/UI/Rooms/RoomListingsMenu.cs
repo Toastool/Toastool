@@ -13,6 +13,8 @@ public class RoomListingsMenu : MonoBehaviourPunCallbacks
     private RoomCanvases _roomsCanvases;
     private List<RoomListing> _listings = new List<RoomListing>();
     CreateRoomMenu CreateRoomMenu;
+    [SerializeField]
+    private Vector3 startPoint;
 
     public void FirstInitialize(RoomCanvases canvases)
     {
@@ -21,7 +23,7 @@ public class RoomListingsMenu : MonoBehaviourPunCallbacks
 
     public void Spawn()
     {
-        PhotonNetwork.Instantiate("Player_remodel", Vector3.zero, Quaternion.identity);
+        PhotonNetwork.Instantiate("Player_remodel", startPoint, Quaternion.identity);
         Debug.Log("I'm in the room.(join)");
     }
 
