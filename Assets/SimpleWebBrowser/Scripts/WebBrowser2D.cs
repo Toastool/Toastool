@@ -474,29 +474,17 @@ namespace SimpleWebBrowser
 
         private Vector2 GetScreenCoords(GraphicRaycaster ray, StandaloneInputModule input)
         {
-            var mousepos = Input.mousePosition;
-            var relativeToDisplayPosition = Display.RelativeMouseAt(mousepos);
-            if (relativeToDisplayPosition != Vector3.zero) {
-                if (ray.eventCamera.targetDisplay == (int) relativeToDisplayPosition.z)
-                    mousepos = relativeToDisplayPosition;
-                else 
-                    return new Vector2(-1,-1); //this click not on our display                    
-            }
+            RectTransform window = GetComponent<RectTransform>();
 
-            Vector2 localPos; // Mouse position  
-            RectTransformUtility.ScreenPointToLocalPointInRectangle(transform as RectTransform, mousepos,
-                ray.eventCamera, out localPos);
+            Vector2 mouseOffset = new Vector2(Input.mousePosition.x - window.position.x, Input.mousePosition.y - window.position.y);
+            mouseOffset.x /= window.lossyScale.x;
+            mouseOffset.y /= window.lossyScale.y;
+            mouseOffset.y = window.rect.height - mouseOffset.y;
 
-            // local pos is the mouse position.
-            RectTransform trns = transform as RectTransform;
-            localPos.y = trns.rect.height - localPos.y;
-            //Debug.Log("x:"+localPos.x+",y:"+localPos.y);
+            if (mouseOffset.x < 0 || mouseOffset.y < 0 || mouseOffset.x > window.rect.width || mouseOffset.y > window.rect.height)
+                mouseOffset = new Vector2(-1, -1);
 
-            //now recalculate to texture
-            localPos.x = (localPos.x*Width)/trns.rect.width;
-            localPos.y = (localPos.y*Height)/trns.rect.height;
-
-            return localPos;
+            return mouseOffset;
 
         }
 
