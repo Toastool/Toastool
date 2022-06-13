@@ -14,7 +14,7 @@ public class CreateRoomMenu : MonoBehaviourPunCallbacks
     RoomListingsMenu RoomListingsMenu;
     private RoomCanvases _roomCanvases;
     [SerializeField]
-    private Vector3 spawnPoint;
+    private Vector3 position;
     public static Guid new_guid;
     public static string projectcode;
 
@@ -40,7 +40,7 @@ public class CreateRoomMenu : MonoBehaviourPunCallbacks
     public void Spawn()
     {
 
-        PhotonNetwork.Instantiate("Player_remodel", spawnPoint, Quaternion.identity);
+        PhotonNetwork.Instantiate("Player_remodel", Vector3.zero, Quaternion.identity);
         Debug.Log("I'm in the room.(create)");
 
     }
