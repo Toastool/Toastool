@@ -35,6 +35,7 @@ public class RoomListingsMenu : MonoBehaviourPunCallbacks
         SceneManager.LoadScene("SampleScene");
         _content.DestroyChildren();
         _listings.Clear();
+
         //_roomsCanvases.CreateOrJoinRoomCanvas.Hide();
         Spawn();
     }
