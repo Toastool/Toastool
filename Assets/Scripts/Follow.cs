@@ -31,7 +31,7 @@ public class Follow : MonoBehaviour
         //transform.position = new Vector3(target.position.x, target.position.y, -10f);
         if (GameObject.Find("Player_remodel") != null)
             transform.position = Vector3.Lerp(transform.position, target.position, Time.deltaTime * speed);
-        else
+        else if (GameObject.Find("Player_remodel(Clone)") != null)
             transform.position = Vector3.Lerp(transform.position, GameObject.Find("Player_remodel(Clone)").GetComponent<Transform>().position, Time.deltaTime * speed);
         
 

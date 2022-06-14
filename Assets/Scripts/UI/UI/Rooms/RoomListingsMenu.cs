@@ -32,7 +32,7 @@ public class RoomListingsMenu : MonoBehaviourPunCallbacks
         Debug.Log("Join room succesed");
 
         //_roomsCanvases.CurrentRoomCanvas.Show();
-        SceneManager.LoadScene("PrivateScene");
+        SceneManager.LoadScene("SampleScene");
         _content.DestroyChildren();
         _listings.Clear();
 
