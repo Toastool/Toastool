@@ -29,13 +29,14 @@ public class OpenWebViewer : MonoBehaviour
 
     private void Update() {
         if (Input.GetKeyUp(KeyCode.Z)) {
-            if (state == 1) {
-                //if (!GameObject.Find("webViewCanvas(Clone)")) {
-                //    Instantiate(WebViewPrefab);
-                //    state = 0;
-                //}
+            //if (state == 1) {
+            //    if (!GameObject.Find("webViewCanvas(Clone)")) {
+            //        Instantiate(WebViewPrefab);
+            //        state = 0;
+            //    }
+            //}
+            if (url != "x")
                 Application.OpenURL(url);
-            }
         }
     }
 }
