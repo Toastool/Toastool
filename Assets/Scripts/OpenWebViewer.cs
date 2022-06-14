@@ -6,8 +6,11 @@ public class OpenWebViewer : MonoBehaviour
 {
     [SerializeField]
     private GameObject WebViewPrefab;
+    [SerializeField]
+    private string url;
 
     private int state = 0;
+    private int time = 0;
 
     private void Awake() {
 
@@ -25,12 +28,15 @@ public class OpenWebViewer : MonoBehaviour
     }
 
     private void Update() {
-        if (Input.GetKeyDown(KeyCode.Z))
-            if (state == 1) {
-                if (!GameObject.Find("webViewCanvas(Clone)")) {
-                    Instantiate(WebViewPrefab);
-                    state = 0;
-                }
-            }
+        if (Input.GetKeyUp(KeyCode.Z)) {
+            //if (state == 1) {
+            //    if (!GameObject.Find("webViewCanvas(Clone)")) {
+            //        Instantiate(WebViewPrefab);
+            //        state = 0;
+            //    }
+            //}
+            if (url != "x")
+                Application.OpenURL(url);
+        }
     }
 }

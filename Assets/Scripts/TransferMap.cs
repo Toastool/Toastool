@@ -6,7 +6,8 @@ using UnityEngine.SceneManagement;
 public class TransferMap : MonoBehaviour
 {
     public string transferMapName; // 이동할 맵의 이름
-
+    [SerializeField]
+    private Vector3 Position;
     private PlayerScript thePlayer;
 
     // Start is called before the first frame update
@@ -27,6 +28,8 @@ public class TransferMap : MonoBehaviour
                 player.currentMapName = transferMapName;
                 Debug.Log(player.currentMapName);
                 SceneManager.LoadScene(transferMapName);
+                GameObject.Find("Main Camera").GetComponent<Transform>().position = Position;
+                GameObject.Find("Player_remodel(Clone)").GetComponent<Transform>().position = Position;
             }
         }
     }
