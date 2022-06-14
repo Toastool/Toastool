@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4de74305c4b75144b9745083125d09ce, type: 3}
   m_Name: GrayFloor
   m_EditorClassIdentifier: 
-  category: 1
+  category: {fileID: 11400000, guid: 92fef09e7227f3f4e89dc22b347bbfb1, type: 2}
   tileBase: {fileID: 11400000, guid: edead794708198a4c9e166eb64e1d046, type: 2}
   placeType: 0

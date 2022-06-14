@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4de74305c4b75144b9745083125d09ce, type: 3}
   m_Name: UpFloor
   m_EditorClassIdentifier: 
-  category: 1
+  category: {fileID: 11400000, guid: 92fef09e7227f3f4e89dc22b347bbfb1, type: 2}
   tileBase: {fileID: 11400000, guid: 500f6e8d06c8b4b4687963e533bf5bc4, type: 2}
   placeType: 0

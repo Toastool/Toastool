@@ -9,9 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4de74305c4b75144b9745083125d09ce, type: 3}
-  m_Name: WoodenFloor
+  m_Script: {fileID: 11500000, guid: 80ea48ec3afcca44b8f3b81f636d0a5d, type: 3}
+  m_Name: Floor
   m_EditorClassIdentifier: 
-  category: {fileID: 11400000, guid: 92fef09e7227f3f4e89dc22b347bbfb1, type: 2}
-  tileBase: {fileID: 11400000, guid: 7e55ac8401dcaa145b1b37c4d0c8e906, type: 2}
-  placeType: 0
+  placeType: 3
+  sortingOrder: 0

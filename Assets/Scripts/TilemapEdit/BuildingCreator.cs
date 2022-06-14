@@ -1,13 +1,15 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
-//using UnityEngine.InputSystem;
-//using UnityEngine.InputSystem.Interactions;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Interactions;
 using UnityEngine.Tilemaps;
 
 public class BuildingCreator : Singleton<BuildingCreator>
 {
-    [SerializeField] Tilemap previewMap, defaultMap;
-    //PlayerInput playerInput;
+    [SerializeField]
+    Tilemap previewMap,
+    defaultMap;
+    PlayerInput playerInput;
 
     TileBase tileBase;
     BuildingObjectBase selectedObj;
@@ -26,34 +28,34 @@ public class BuildingCreator : Singleton<BuildingCreator>
     protected override void Awake()
     {
         base.Awake();
-        //playerInput = new PlayerInput();
+        playerInput = new PlayerInput();
         _camera = Camera.main;
     }
 
     private void OnEnable()
     {
-        //playerInput.Enable();
+        playerInput.Enable();
 
-        //playerInput.Gameplay.MousePosition.performed += OnMouseMove;
+        playerInput.Gameplay.MousePosition.performed += OnMouseMove;
 
-        //playerInput.Gameplay.MouseLeftClick.performed += OnLeftClick;
-        //playerInput.Gameplay.MouseLeftClick.started += OnLeftClick;
-        //playerInput.Gameplay.MouseLeftClick.canceled += OnLeftClick;
+        playerInput.Gameplay.MouseLeftClick.performed += OnLeftClick;
+        playerInput.Gameplay.MouseLeftClick.started += OnLeftClick;
+        playerInput.Gameplay.MouseLeftClick.canceled += OnLeftClick;
 
-        //playerInput.Gameplay.MouseRightClick.performed += OnRightClick;
+        playerInput.Gameplay.MouseRightClick.performed += OnRightClick;
     }
 
     private void OnDisable()
     {
-        //playerInput.Disable();
+        playerInput.Disable();
 
-        //playerInput.Gameplay.MousePosition.performed -= OnMouseMove;
+        playerInput.Gameplay.MousePosition.performed -= OnMouseMove;
 
-        //playerInput.Gameplay.MouseLeftClick.performed -= OnLeftClick;
-        //playerInput.Gameplay.MouseLeftClick.started -= OnLeftClick;
-        //playerInput.Gameplay.MouseLeftClick.canceled -= OnLeftClick;
+        playerInput.Gameplay.MouseLeftClick.performed -= OnLeftClick;
+        playerInput.Gameplay.MouseLeftClick.started -= OnLeftClick;
+        playerInput.Gameplay.MouseLeftClick.canceled -= OnLeftClick;
 
-        //playerInput.Gameplay.MouseRightClick.performed -= OnRightClick;
+        playerInput.Gameplay.MouseRightClick.performed -= OnRightClick;
     }
 
     private BuildingObjectBase SelectedObj
@@ -65,6 +67,18 @@ public class BuildingCreator : Singleton<BuildingCreator>
             tileBase = selectedObj != null ? selectedObj.TileBase : null;
 
             UpdatePreview();
+        }
+    }
+
+    private Tilemap tilemap
+    {
+        get
+        {
+            if(selectedObj != null && selectedObj.Category != null && selectedObj.Category.Tilemap != null)
+            {
+                return selectedObj.Category.Tilemap;
+            }
+            return defaultMap;
         }
     }
 
@@ -83,29 +97,28 @@ public class BuildingCreator : Singleton<BuildingCreator>
 
                 UpdatePreview();
 
-                if(holdActive)
+                if (holdActive)
                 {
                     HandleDrawing();
                 }
             }
         }
     }
-    /*
+
     private void OnMouseMove(InputAction.CallbackContext ctx)
     {
         mousePos = ctx.ReadValue<Vector2>();
     }
-    
+
     private void OnLeftClick(InputAction.CallbackContext ctx)
     {
-        //Debug.Log(ctx.interaction + " / " + ctx.phase);
         if (selectedObj != null && !EventSystem.current.IsPointerOverGameObject())
         {
-            if(ctx.phase == InputActionPhase.Started)
+            if (ctx.phase == InputActionPhase.Started)
             {
-                // Hold event started
                 holdActive = true;
-                if(ctx.interaction is TapInteraction)
+
+                if (ctx.interaction is TapInteraction)
                 {
                     holdStartPosition = currentGridPosition;
                 }
@@ -113,22 +126,20 @@ public class BuildingCreator : Singleton<BuildingCreator>
             }
             else
             {
-                // performed or canceled
-                if(ctx.interaction is SlowTapInteraction || ctx.interaction is TapInteraction && ctx.phase == InputActionPhase.Performed)
+                if (ctx.interaction is SlowTapInteraction || ctx.interaction is TapInteraction && ctx.phase == InputActionPhase.Performed)
                 {
                     holdActive = false;
-                    // Draw on Release
-                    HandlerDrawRelease();
+                    HandleDrawRelease();
                 }
             }
         }
     }
-    
+
     private void OnRightClick(InputAction.CallbackContext ctx)
     {
         SelectedObj = null;
     }
-    */
+
     public void ObjectSelected(BuildingObjectBase obj)
     {
         SelectedObj = obj;
@@ -144,11 +155,11 @@ public class BuildingCreator : Singleton<BuildingCreator>
 
     private void HandleDrawing()
     {
-        if(selectedObj != null)
+        if (selectedObj != null)
         {
-            switch(selectedObj.PlaceType)
+            switch (selectedObj.PlaceType)
             {
-                case PlaceType.Single: 
+                case PlaceType.Single:
                 default:
                     DrawItem();
                     break;
@@ -160,20 +171,18 @@ public class BuildingCreator : Singleton<BuildingCreator>
                     break;
             }
         }
+
     }
 
-    private void HandlerDrawRelease()
+    private void HandleDrawRelease()
     {
         if (selectedObj != null)
         {
             switch (selectedObj.PlaceType)
             {
                 case PlaceType.Line:
-                    //DrawBounds(defaultMap);
-                    //previewMap.ClearAllTiles();
-                    //break;
                 case PlaceType.Rectangle:
-                    DrawBounds(defaultMap);
+                    DrawBounds(tilemap);
                     previewMap.ClearAllTiles();
                     break;
             }
@@ -182,7 +191,7 @@ public class BuildingCreator : Singleton<BuildingCreator>
 
     private void RectangleRenderer()
     {
-        // Render Preview on UI Map, draw real one on Release
+        //  Render Preview on UI Map, draw real one on Release
 
         previewMap.ClearAllTiles();
 
@@ -196,7 +205,7 @@ public class BuildingCreator : Singleton<BuildingCreator>
 
     private void LineRenderer()
     {
-        // Render Preview on UI Map, draw real one on Release
+        //  Render Preview on UI Map, draw real one on Release
 
         previewMap.ClearAllTiles();
 
@@ -205,7 +214,7 @@ public class BuildingCreator : Singleton<BuildingCreator>
 
         bool lineIsHorizontal = diffX >= diffY;
 
-        if(lineIsHorizontal)
+        if (lineIsHorizontal)
         {
             bounds.xMin = currentGridPosition.x < holdStartPosition.x ? currentGridPosition.x : holdStartPosition.x;
             bounds.xMax = currentGridPosition.x > holdStartPosition.x ? currentGridPosition.x : holdStartPosition.x;
@@ -214,32 +223,31 @@ public class BuildingCreator : Singleton<BuildingCreator>
         }
         else
         {
-            bounds.xMin = currentGridPosition.x;
-            bounds.xMax = currentGridPosition.x;
+            bounds.xMin = holdStartPosition.x;
+            bounds.xMax = holdStartPosition.x;
             bounds.yMin = currentGridPosition.y < holdStartPosition.y ? currentGridPosition.y : holdStartPosition.y;
             bounds.yMax = currentGridPosition.y > holdStartPosition.y ? currentGridPosition.y : holdStartPosition.y;
         }
+
         DrawBounds(previewMap);
     }
 
     private void DrawBounds(Tilemap map)
     {
         // Draws bounds on given map
-        for(int x = bounds.xMin; x <= bounds.xMax; x++)
+        for (int x = bounds.xMin; x <= bounds.xMax; x++)
         {
-            for(int y = bounds.yMin; y <= bounds.yMax; y++)
+            for (int y = bounds.yMin; y <= bounds.yMax; y++)
             {
                 map.SetTile(new Vector3Int(x, y, 0), tileBase);
             }
         }
     }
 
-
-
     private void DrawItem()
     {
         // TODO: automatically select tilemap
-        defaultMap.SetTile(currentGridPosition, tileBase);
+        tilemap.SetTile(currentGridPosition, tileBase);
     }
 
 }
