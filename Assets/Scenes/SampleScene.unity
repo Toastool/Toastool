@@ -743,6 +743,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   transferMapName: PublicScene
   Position: {x: 18.5, y: 2.5, z: 0}
+  _roomname: {fileID: 0}
 --- !u!61 &178307257
 BoxCollider2D:
   m_ObjectHideFlags: 0
