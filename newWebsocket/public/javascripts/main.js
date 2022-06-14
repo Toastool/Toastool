@@ -44,6 +44,7 @@ CLose
 //다시 파일목록에서 선택해서 열면 자동 활성화x, 파일내용이 안불러와짐
 //+ x 아이콘이 추가되면서 tab 여러개 쌓이거나 계속 닫히면ㅋㅋ 공간이 이상해짐
 //ㅋㅋㅋ모르겠다.. 하지말자...
+/*
 $("body").on('click','.ui-icon-close', function() {
     var tab = $("div#tabs ul li a");
     var current_click_index = -1;
@@ -67,7 +68,7 @@ $("body").on('click','.ui-icon-close', function() {
     $("#tabs").tabs("refresh");
     var tab_active_index = String(current_click_index-1);
     $("#tabs").tabs({active: tab_active_index});
-});
+});*/
 
 /*
 function if_tab_exist(thisI) { //thisI - contains some id, title and text for tab content.
@@ -136,17 +137,41 @@ function fileNameListLoad() {
     });
 
 }
+//이 시발거
+// function sendMessage() {
+//   window.cefQuery({
+//     request: 'BindingTest:' + document.getElementById("message").value,
+//     onSuccess: function(response) {
+//       document.getElementById('result').value = 'Response: '+response;
+//     },
+//     onFailure: function(error_code, error_message) {}
+//   });
+// }
 
 //페이지가 로드될때
 window.onload = function() {
-    fileNameListLoad();
+	fileNameListLoad();
+		// window.cefQuery({
+		// request: 'index:' +  document.getElementById("files").value,
+		// onSuccess: function(response) {
+		// console.log(response);
+		//  document.getElementById('files').value = 'Response: '+response;
 		//userid 가져오는 부분
+	/*	
 	const url = window.location.href;
 	const urlParams = url.searchParams;
 	var userid_beforSplit = String(urlParams.get('Name'));
-    var userid_split_array = userid_beforSplit.split('=');
-    userid = userid_split_array[1];
+	var userid_split_array = userid_beforSplit.split('=');
+	userid = userid_split_array[1];
 	console.log(userid);
+	게임에서 접속할 때 id 받아오는 방법인데 ............... 추억이다..*/
+	
+      //document.getElementById('result').value = 'Response: '+response;
+    //},
+  //   onFailure: function(error_code, error_message) { console.log("error"); }
+  // });
+	
+    
     
     //568번줄에 ip가져오는 코드 있음 (이건진짜 접속해 있는 사람 아이피 번호 xxx.xxx.xxx 같은 거 불러오는 거라 위에걸로 쓰는게 맞을듯 합니다 ㅎㅎ ,,)
     //확인 필요!
