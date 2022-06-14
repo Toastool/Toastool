@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4de74305c4b75144b9745083125d09ce, type: 3}
   m_Name: Wall7
   m_EditorClassIdentifier: 
-  category: 0
+  category: {fileID: 11400000, guid: 95d02eb980e2339429e888193ce13715, type: 2}
   tileBase: {fileID: 11400000, guid: 1753b8b99cab64f4d8a394402319690f, type: 2}
   placeType: 0
