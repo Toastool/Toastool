@@ -13,8 +13,6 @@ public class CreateRoomMenu : MonoBehaviourPunCallbacks
     private Text _roomname;
     RoomListingsMenu RoomListingsMenu;
     private RoomCanvases _roomCanvases;
-    [SerializeField]
-    private Vector3 position;
     public static Guid new_guid;
     public static string projectcode;
 
