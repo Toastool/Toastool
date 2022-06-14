@@ -22,10 +22,6 @@ public class ChatManager : MonoBehaviourPunCallbacks
     List<RoomInfo> myList = new List<RoomInfo>();
     int currentPage = 1, maxPage, multiple;
 
-
-
-    void Awake() => Screen.SetResolution(960, 540, false);
-
     void Start()
     {
         RoomPanel.SetActive(true);

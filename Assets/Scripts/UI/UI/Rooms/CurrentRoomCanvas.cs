@@ -14,6 +14,8 @@ public class CurrentRoomCanvas : MonoBehaviour
     public Text projectCode;
     bool ispause;
     public Button CopyButton;
+    public Button ChatButton;
+    public Canvas ChatCanvas;
 
     public void FirstInitialize(RoomCanvases canvases)
     {
@@ -39,6 +41,7 @@ public class CurrentRoomCanvas : MonoBehaviour
         Debug.Log(projectCode.text);
         projectCode.gameObject.SetActive(false);
         CopyButton.gameObject.SetActive(false);
+        ChatCanvas.gameObject.SetActive(false);
         ispause = false;
         CopyButton.onClick.AddListener(() =>
         {
@@ -48,6 +51,23 @@ public class CurrentRoomCanvas : MonoBehaviour
             te.Copy();
             Debug.Log("copy");
         });
+
+        ChatButton.onClick.AddListener(() =>
+        {
+            if (ispause == false)
+            {
+                ChatCanvas.gameObject.SetActive(true);
+                ispause=true;
+                return;
+            }
+            else
+            {
+                ChatCanvas.gameObject.SetActive(false);
+                ispause = false;
+                return;
+            }
+        });
+
     }
 
     void Update()

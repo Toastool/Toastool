@@ -311,6 +311,7 @@ namespace SimpleWebBrowser
  public void RunJavaScript(string js)
         {
             _mainEngine.SendExecuteJSEvent(js);
+            
         }
         public void GoBackForward(bool forward)
         {
